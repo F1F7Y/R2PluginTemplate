@@ -10,8 +10,8 @@ Check [plugin.cpp](./src/plugin.cpp) for examples.
 - Open the MingW shell
 - Run:
   ```sh
-  pacman -S  {make,gcc,cmake,base-devel}
-  pacman -S mingw-w64-x86_64-spdlog
+  pacman -S {make,gcc,cmake,base-devel}
+  pacman -S mingw-w64-x86_64-{spdlog,fmt,cmake}
   ```
 
 ### Compiling
