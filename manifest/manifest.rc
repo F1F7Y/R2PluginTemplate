@@ -13,7 +13,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // RCDATA
 //
 
-IDR_RCDATA1             RCDATA                  "manifest.json"
+IDR_MANIFEST             RCDATA                  "manifest.json"
 
 
 #ifdef APSTUDIO_INVOKED

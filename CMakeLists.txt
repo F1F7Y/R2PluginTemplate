@@ -15,8 +15,6 @@ set(CMAKE_CXX_FLAGS "-fpermissive")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 # Find SPDLOG
-# include(FindPkgConfig)
-# pkg_check_modules(SPDLOG spdlog REQUIRED )
 find_package( spdlog REQUIRED )
 find_package( fmt REQUIRED )
 
@@ -34,14 +32,14 @@ add_library(CPlugTest SHARED
             src/lib/squirrelautobind.cpp
             src/plugin.cpp
             manifest/resource.h
-            manifest/resource.rc
+            manifest/manifest.rc
            )
 
 target_precompile_headers(CPlugTest PUBLIC src/pch.h)
 
 target_link_libraries(CPlugTest
-                      -static-libgcc
-                      -static-libstdc++
+                    #   -static-libgcc
+                    #   -static-libstdc++
                       spdlog::spdlog_header_only
                       fmt::fmt-header-only
                       -static -lpthread
