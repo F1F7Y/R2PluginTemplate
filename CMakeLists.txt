@@ -15,22 +15,22 @@ set(CMAKE_CXX_FLAGS "-fpermissive")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 # Find SPDLOG
-find_package( spdlog REQUIRED )
-find_package( fmt REQUIRED )
+find_package(spdlog REQUIRED)
+find_package(fmt REQUIRED)
 
 
-include_directories(. src src/lib include)
+include_directories(. plugin lib)
 
 add_library(CPlugTest SHARED
-            src/lib/bits.cpp
-            src/lib/color.cpp
-            src/lib/concommand.cpp
-            src/lib/convar.cpp
-            src/lib/loader.cpp
-            src/lib/plugin_lib.cpp
-            src/lib/squirrel.cpp
-            src/lib/squirrelautobind.cpp
-            src/plugin.cpp
+            lib/bits.cpp
+            lib/color.cpp
+            lib/concommand.cpp
+            lib/convar.cpp
+            lib/loader.cpp
+            lib/plugin_lib.cpp
+            lib/squirrel.cpp
+            lib/squirrelautobind.cpp
+            plugin/plugin.cpp
             manifest/resource.h
             manifest/manifest.rc
            )
