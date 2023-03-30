@@ -93,6 +93,8 @@ class SquirrelManagerBase
 	sq_getthisentityType __sq_getthisentity;
 	sq_getobjectType __sq_getobject;
 
+	sq_stackinfosType __sq_stackinfos;
+
 	sq_createuserdataType __sq_createuserdata;
 	sq_setuserdatatypeidType __sq_setuserdatatypeid;
 	sq_getfunctionType __sq_getfunction;
@@ -100,7 +102,7 @@ class SquirrelManagerBase
 	sq_getentityfrominstanceType __sq_getentityfrominstance;
 	sq_GetEntityConstantType __sq_GetEntityConstant_CBaseEntity;
 
-	sq_schedule_call_externalType __sq_schedule_call_external;
+	sq_schedule_call_externalType __sq_schedule_call_external; // Allows for generating squirrelmessages from plugins.
 
 #pragma endregion
 
