@@ -235,6 +235,8 @@ void InitializeSquirrelVM_CLIENT(SquirrelFunctions* funcs)
 	g_pSquirrel<ScriptContext::CLIENT>->__sq_getasset = funcs->__sq_getasset;
 	g_pSquirrel<ScriptContext::CLIENT>->__sq_getuserdata = funcs->__sq_getuserdata;
 	g_pSquirrel<ScriptContext::CLIENT>->__sq_getvector = funcs->__sq_getvector;
+	g_pSquirrel<ScriptContext::CLIENT>->__sq_getthisentity = funcs->__sq_getthisentity; // at launcher 5d946ca2c10446dbe3e2aa44f2f717c06bf00fb1 this is still unitialized
+	g_pSquirrel<ScriptContext::CLIENT>->__sq_getobject = funcs->__sq_getobject; // at launcher 5d946ca2c10446dbe3e2aa44f2f717c06bf00fb1 this is still unitialized
 	g_pSquirrel<ScriptContext::UI>->__sq_getstring = g_pSquirrel<ScriptContext::CLIENT>->__sq_getstring;
 	g_pSquirrel<ScriptContext::UI>->__sq_getinteger = g_pSquirrel<ScriptContext::CLIENT>->__sq_getinteger;
 	g_pSquirrel<ScriptContext::UI>->__sq_getfloat = g_pSquirrel<ScriptContext::CLIENT>->__sq_getfloat;
@@ -243,23 +245,33 @@ void InitializeSquirrelVM_CLIENT(SquirrelFunctions* funcs)
 	g_pSquirrel<ScriptContext::UI>->__sq_getasset = g_pSquirrel<ScriptContext::CLIENT>->__sq_getasset;
 	g_pSquirrel<ScriptContext::UI>->__sq_getuserdata = g_pSquirrel<ScriptContext::CLIENT>->__sq_getuserdata;
 	g_pSquirrel<ScriptContext::UI>->__sq_getvector = g_pSquirrel<ScriptContext::CLIENT>->__sq_getvector;
+	g_pSquirrel<ScriptContext::UI>->__sq_getthisentity = g_pSquirrel<ScriptContext::CLIENT>->__sq_getthisentity;
+	g_pSquirrel<ScriptContext::UI>->__sq_getobject = g_pSquirrel<ScriptContext::CLIENT>->__sq_getobject;
+
 
 	g_pSquirrel<ScriptContext::CLIENT>->__sq_createuserdata = funcs->__sq_createuserdata;
 	g_pSquirrel<ScriptContext::CLIENT>->__sq_setuserdatatypeid = funcs->__sq_setuserdatatypeid;
 	g_pSquirrel<ScriptContext::UI>->__sq_createuserdata = g_pSquirrel<ScriptContext::CLIENT>->__sq_createuserdata;
 	g_pSquirrel<ScriptContext::UI>->__sq_setuserdatatypeid = g_pSquirrel<ScriptContext::CLIENT>->__sq_setuserdatatypeid;
 
+	g_pSquirrel<ScriptContext::CLIENT>->__sq_GetEntityConstant_CBaseEntity = funcs->__sq_GetEntityConstant_CBaseEntity;
+	g_pSquirrel<ScriptContext::UI>->__sq_GetEntityConstant_CBaseEntity = g_pSquirrel<ScriptContext::CLIENT>->__sq_GetEntityConstant_CBaseEntity;
+	g_pSquirrel<ScriptContext::CLIENT>->__sq_getentityfrominstance = funcs->__sq_getentityfrominstance;
+	g_pSquirrel<ScriptContext::UI>->__sq_getentityfrominstance = g_pSquirrel<ScriptContext::CLIENT>->__sq_getentityfrominstance;
+
 
 	// Message buffer stuff
 	g_pSquirrel<ScriptContext::UI>->messageBuffer = g_pSquirrel<ScriptContext::CLIENT>->messageBuffer;
 	g_pSquirrel<ScriptContext::CLIENT>->__sq_getfunction = funcs->__sq_getfunction;
 	g_pSquirrel<ScriptContext::UI>->__sq_getfunction = g_pSquirrel<ScriptContext::CLIENT>->__sq_getfunction;
+	g_pSquirrel<ScriptContext::CLIENT>->__sq_stackinfos = funcs->__sq_stackinfos;
+	g_pSquirrel<ScriptContext::UI>->__sq_stackinfos = g_pSquirrel<ScriptContext::CLIENT>->__sq_stackinfos;
 
 	g_pSquirrel<ScriptContext::CLIENT>->RegisterSquirrelFunc = funcs->RegisterSquirrelFunc;
 	g_pSquirrel<ScriptContext::UI>->RegisterSquirrelFunc = funcs->RegisterSquirrelFunc;
 
-	g_pSquirrel<ScriptContext::CLIENT>->__sq_schedule_call_external = funcs->__sq_schedule_call_external;
-	g_pSquirrel<ScriptContext::UI>->__sq_schedule_call_external = funcs->__sq_schedule_call_external;
+	g_pSquirrel<ScriptContext::CLIENT>->__sq_schedule_call_external = funcs->__sq_schedule_call_external; // TODO
+	g_pSquirrel<ScriptContext::UI>->__sq_schedule_call_external = funcs->__sq_schedule_call_external; // TODO
 
 	if (g_pSqAutoBindContainer)
 		for (auto& autoBindFunc : g_pSqAutoBindContainer->clientSqAutoBindFuncs)
@@ -301,15 +313,23 @@ void InitializeSquirrelVM_SERVER(SquirrelFunctions * funcs)
 	g_pSquirrel<ScriptContext::SERVER>->__sq_getvector = funcs->__sq_getvector;
 	g_pSquirrel<ScriptContext::SERVER>->__sq_get = funcs->__sq_get;
 
+	g_pSquirrel<ScriptContext::SERVER>->__sq_getthisentity = funcs->__sq_getthisentity;
+	g_pSquirrel<ScriptContext::SERVER>->__sq_getobject = funcs->__sq_getobject;
+
+
 	g_pSquirrel<ScriptContext::SERVER>->__sq_createuserdata = funcs->__sq_createuserdata;
 	g_pSquirrel<ScriptContext::SERVER>->__sq_setuserdatatypeid = funcs->__sq_setuserdatatypeid;
 
+	g_pSquirrel<ScriptContext::SERVER>->__sq_GetEntityConstant_CBaseEntity = funcs->__sq_GetEntityConstant_CBaseEntity;
+	g_pSquirrel<ScriptContext::SERVER>->__sq_getentityfrominstance = funcs->__sq_getentityfrominstance;
+
 	// Message buffer stuff
 	g_pSquirrel<ScriptContext::SERVER>->__sq_getfunction = funcs->__sq_getfunction;
+	g_pSquirrel<ScriptContext::SERVER>->__sq_stackinfos = funcs->__sq_stackinfos;
 
 	g_pSquirrel<ScriptContext::SERVER>->RegisterSquirrelFunc = funcs->RegisterSquirrelFunc;
 
-	g_pSquirrel<ScriptContext::SERVER>->__sq_schedule_call_external = funcs->__sq_schedule_call_external;
+	g_pSquirrel<ScriptContext::SERVER>->__sq_schedule_call_external = funcs->__sq_schedule_call_external; // TODO
 
 	if (g_pSqAutoBindContainer)
 		for (auto& autoBindFunc : g_pSqAutoBindContainer->serverSqAutoBindFuncs)
