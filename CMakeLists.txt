@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.21.1)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(R2plugin)
 
-project(CPlugTemplate)
+project(CPlugTemplate VERSION 1.0)
 
 # Build settings
 set(CMAKE_BUILD_TYPE Release)
@@ -33,16 +35,23 @@ add_library(CPlugTest SHARED
             src/lib/squirrel.cpp
             src/lib/squirrelautobind.cpp
             src/plugin.cpp
-            manifest/resource.h
-            manifest/resource.rc
            )
+
+plugin_manifest(CPlugTest name "cplug-test")
+plugin_manifest(CPlugTest displayname "CPLUGTEST")
+plugin_manifest(CPlugTest description "gcc plug testing")
+plugin_manifest(CPlugTest run_on_server ON)
+#plugin_manifest(CPlugTest run_on_client OFF)
 
 target_precompile_headers(CPlugTest PUBLIC src/pch.h)
 
+plugin_link(CPlugTest)
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 target_link_libraries(CPlugTest
-                      -static-libgcc
-                      -static-libstdc++
                       spdlog::spdlog_header_only
                       fmt::fmt-header-only
-                      -static -lpthread
+                      Threads::Threads
                      )
