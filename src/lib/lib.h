@@ -2,7 +2,6 @@
 
 #include "plugin_abi.h"
 #include "loader.h"
-#include "util.h"
 
 typedef void (*logger_t)(void*);
 
@@ -25,12 +24,6 @@ class Plugin {
 
 	public:
 		void RelayInvite(const char* invite);
-
-		void LoadPresence(PluginGameStatePresence* data);
-
-		GameStatePresenceClass* presence;
-
-		std::shared_mutex mutex;
 };
 
 extern Plugin* g_pPlugin;

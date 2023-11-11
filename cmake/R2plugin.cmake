@@ -125,7 +125,7 @@ END
 set(MANIFEST_TEMPLATE
     "{
         \"description\": \"\",
-        \"api_version\": \"2\",
+        \"api_version\": \"3\",
         \"version\": \"0\",
         \"run_on_server\": false,
         \"run_on_client\": false

@@ -65,10 +65,6 @@ void PLUGIN_INFORM_SQVM_DESTROYED(ScriptContext context) {
 	}
 }
 
-void PLUGIN_RECEIVE_PRESENCE(PluginGameStatePresence* data) {
-	g_pPlugin->LoadPresence(data);
-}
-
 void LoadDLLEngine(PluginEngineData* data) {
 	ConCommandConstructor = (ConCommandConstructorType)(data->ConCommandConstructor);
 	conVarMalloc = (ConVarMallocType)(data->conVarMalloc);
