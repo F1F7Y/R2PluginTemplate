@@ -20,7 +20,7 @@ public:
 		msg.source.file = in_msg.source.filename;
 		msg.source.func = in_msg.source.funcname;
 		msg.source.line = in_msg.source.line;
-		// msg.pluginHandle = g_pPlugin->handle;
+		msg.pluginHandle = g_pPlugin->handle;
 		g_pPlugin->logger(&msg);
 	}
 

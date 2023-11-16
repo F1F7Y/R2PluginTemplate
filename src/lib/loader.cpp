@@ -12,11 +12,11 @@
 
 void PLUGIN_INIT(PluginInitFuncs* funcs, PluginNorthstarData* data) {
 	g_pPlugin = new Plugin;
+	g_pPlugin->handle = data->pluginHandle;
 	g_pPlugin->logger = (logger_t)funcs->logger;
 	spdlog::default_logger()->sinks().pop_back();
 	spdlog::default_logger()->sinks().push_back(std::make_shared<my_sink>());
 	spdlog::info("CPluginTest succesfully initialised!");
-
 	g_pPlugin->Init(funcs, data);
 	g_pPlugin->Main();
 }
@@ -63,10 +63,6 @@ void PLUGIN_INFORM_SQVM_DESTROYED(ScriptContext context) {
 		spdlog::warn("PLUGIN_INFORM_SQVM_DESTROYED called with unknown ScriptContext {}", (int)context);
 		break;
 	}
-}
-
-void PLUGIN_RECEIVE_PRESENCE(PluginGameStatePresence* data) {
-	g_pPlugin->LoadPresence(data);
 }
 
 void LoadDLLEngine(PluginEngineData* data) {

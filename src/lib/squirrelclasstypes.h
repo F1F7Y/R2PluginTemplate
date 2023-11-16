@@ -1,16 +1,8 @@
 #pragma once
-#include "../pch.h"
 #include "squirreldatatypes.h"
 
-#include <map>
-#include <vector>
-#include <functional>
-#include <mutex>
-#include <optional>
-
-
 #include <queue>
-
+#include <map>
 enum SQRESULT : SQInteger
 {
 	SQRESULT_ERROR = -1,
@@ -80,6 +72,7 @@ struct SQFuncRegistration
 
 enum class ScriptContext : int
 {
+	INVALID = -1,
 	SERVER,
 	CLIENT,
 	UI,
@@ -123,8 +116,9 @@ concept is_iterable = requires(std::ranges::range_value_t<T> x)
 
 // clang-format on
 
-typedef void (*SquirrelMessage_External_Pop)(HSquirrelVM* sqvm);
-typedef void (*sq_schedule_call_externalType)(ScriptContext context, const char* funcname, SquirrelMessage_External_Pop function);
+typedef int (*SquirrelMessage_External_Pop)(HSquirrelVM* sqvm, void* userdata);
+typedef void (*sq_schedule_call_externalType)(
+	ScriptContext context, const char* funcname, SquirrelMessage_External_Pop function, void* userdata);
 
 class SquirrelMessage
 {
@@ -132,6 +126,7 @@ class SquirrelMessage
 	std::string functionName;
 	FunctionVector args;
 	bool isExternal = false;
+	void* userdata = NULL;
 	SquirrelMessage_External_Pop externalFunc = NULL;
 };
 
@@ -199,6 +194,7 @@ typedef SQRESULT (*sq_compilebufferType)(
 	HSquirrelVM* sqvm, CompileBufferState* compileBuffer, const char* file, int a1, SQBool bShouldThrowError);
 typedef SQRESULT (*sq_callType)(HSquirrelVM* sqvm, SQInteger iArgs, SQBool bShouldReturn, SQBool bThrowError);
 typedef SQInteger (*sq_raiseerrorType)(HSquirrelVM* sqvm, const SQChar* pError);
+typedef bool (*sq_compilefileType)(CSquirrelVM* sqvm, const char* path, const char* name, int a4);
 
 // sq stack array funcs
 typedef void (*sq_newarrayType)(HSquirrelVM* sqvm, SQInteger iStackpos);
@@ -226,7 +222,7 @@ typedef SQBool (*sq_getboolType)(HSquirrelVM*, SQInteger iStackpos);
 typedef SQRESULT (*sq_getType)(HSquirrelVM* sqvm, SQInteger iStackpos);
 typedef SQRESULT (*sq_getassetType)(HSquirrelVM* sqvm, SQInteger iStackpos, const char** pResult);
 typedef SQRESULT (*sq_getuserdataType)(HSquirrelVM* sqvm, SQInteger iStackpos, void** pData, uint64_t* pTypeId);
-typedef long long* (*sq_getvectorType)(HSquirrelVM* sqvm, SQInteger iStackpos);
+typedef SQFloat* (*sq_getvectorType)(HSquirrelVM* sqvm, SQInteger iStackpos);
 typedef SQBool (*sq_getthisentityType)(HSquirrelVM*, void** ppEntity);
 typedef void (*sq_getobjectType)(HSquirrelVM*, SQInteger iStackPos, SQObject* pOutObj);
 
@@ -241,6 +237,10 @@ typedef void* (*sq_getentityfrominstanceType)(CSquirrelVM* sqvm, SQObject* pInst
 typedef char** (*sq_GetEntityConstantType)();
 
 typedef int (*sq_getfunctionType)(HSquirrelVM* sqvm, const char* name, SQObject* returnObj, const char* signature);
+
+// structs
+typedef SQRESULT (*sq_pushnewstructinstanceType)(HSquirrelVM* sqvm, int fieldCount);
+typedef SQRESULT (*sq_sealstructslotType)(HSquirrelVM* sqvm, int slotIndex);
 
 #pragma endregion
 
